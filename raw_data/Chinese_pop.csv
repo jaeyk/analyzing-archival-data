@@ -1,0 +1,85 @@
+Name,Group,Year,Percent,Size,Total,Source,Type
+Seattle,Chinese,1920,,1351,,Census,City
+Seattle,Japanese,1920,,7874,,Census,City
+Seattle,Chinese,1940,,1781,,Census,City
+Seattle,Japanese,1940,,5778,,Census,City
+Seattle,Filipino,1940,,1392,,Census,City
+Seattle,Chinese,1960,,4321,,Census,City
+Seattle,Japanese,1960,,10789,,Census,City
+Seattle,Filipino,1960,,4434,,Census,City
+SF,Chinese,1960,4.92289779,36445,740316,Census,City
+SF,Chinese,1970,8.201499565,58696,715674,Census,City
+SF,Chinese,1980,12.11298223,82244,678974,Census,City
+SF,Chinese,1990,18.06082941,130753,723959,Census,City
+SF,Chinese,2000,19.6489656,152620,776733,Census,City
+SF,Chinese,2010,21.12125113,166683,789172,ACS,City
+SF,Chinese,2015,21.36678232,179644,840763,ACS,City
+SF,Asian,1960,7.866370577,58236,740316,Census,City
+SF,Asian,1970,13.28747446,95095,715674,Census,City
+SF,Asian,1980,19.64655495,133395,678974,Census,City
+SF,Asian,1990,25.32201409,183321,723959,Census,City
+SF,Asian,2000,27.26702741,211792,776733,Census,City
+SF,Asian,2010,28.69691271,226468,789172,ACS,City
+SF,Asian,2015,28.12385892,236455,840763,ACS,City
+Vancouver,Chinese,2016,27.04259071,167180,618210,Census,City
+Vancouver,Asian,2016,36.12283852,223315,618210,Census,City
+Vancouver,Chinese,2011,27.65649224,163230,590205,NHA,City
+Vancouver,Asian,2011,36.86515702,217580,590205,NHA,City
+Vancouver,Chinese,2006,29.10087693,168215,578041,Census,City
+Vancouver,Asian,2006,37.25168284,215330,578041,Census,City
+Vancouver,Chinese,2001,29.52511678,161110,545671,Census,City
+Vancouver,Asian,2001,36.21321272,197605,545671,Census,City
+Vancouver,Chinese,1996,27.20969323,139860,514008,Census,City
+Vancouver,Asian,1996,32.80785513,168635,514008,Census,City
+Vancouver,Chinese,1991,21.81759226,102945,471844,Census,City
+Vancouver,Asian,1991,25.71400717,121330,471844,Census,City
+Vancouver,Chinese,1981,14.60988042,59620,408080,Census,City
+Vancouver,Asian,1981,15.89026661,64845,408080,Census,City
+Vancouver,Chinese,1971,7.188168612,30640,426256,Census,City
+Vancouver,Asian,1971,10.18402087,43410,426256,Census,City
+Vancouver,Chinese,1961,3.958941231,15223,384522,Census,City
+Vancouver,Asian,1961,5.179157499,19915,384522,Census,City
+United States,Chinese,1960,0.132326455,237292,179323175,Census,Country
+United States,Chinese,1970,0.213997862,435062,203302031,Census,Country
+United States,Chinese,1980,0.355801261,806040,226542199,Census,Country
+United States,Chinese,1990,0.661603008,1645472,248709873,Census,Country
+United States,Chinese,2000,0.911155083,2564190,281421906,Census,Country
+United States,Chinese,2010,1.087661261,3347229,307745538,Census,Country
+United States,Japanese,1960,0.258935857,464332,179323175,Census,Country
+United States,Japanese,1970,0.290843135,591290,203302031,Census,Country
+United States,Japanese,1980,0.309423146,700974,226542199,Census,Country
+United States,Japanese,1990,0.340783416,847562,248709873,Census,Country
+United States,Japanese,2000,0.302832502,852237,281421906,Census,Country
+United States,Japanese,2010,0.248037715,763325,307745538,Census,Country
+United States,Filipino,1960,0.098319696,176310,179323175,Census,Country
+United States,Filipino,1970,0.16874401,343060,203302031,Census,Country
+United States,Filipino,1980,0.341946005,774652,226542199,Census,Country
+United States,Filipino,1990,0.565626922,1406770,248709873,Census,Country
+United States,Filipino,2000,0.678030018,1908125,281421906,Census,Country
+United States,Filipino,2010,0.830531294,2555923,307745538,Census,Country
+United States,Korean,1960,NA,NA,NA,Census,Country
+United States,Korean,1970,0.034003595,69130,203302031,Census,Country
+United States,Korean,1980,0.156524039,354593,226542199,Census,Country
+United States,Korean,1990,0.32119714,798849,248709873,Census,Country
+United States,Korean,2000,0.390666816,1099422,281421906,Census,Country
+United States,Korean,2010,0.462649762,1423784,307745538,Census,Country
+Canada,Chinese,2011,3.957231372,1324750,33476688,NHA,Country
+Canada,Japanese,2011,0.260688871,87270,33476688,NHA,Country
+Canada,Filipino,2011,1.849973928,619310,33476688,NHA,Country
+Canada,Korean,2011,0.481320016,161130,33476688,NHA,Country
+Canada,Chinese,2001,3.528945737,1094700,31020596,Census,Country
+Canada,Japanese,2001,0.236342977,73315,31020596,Census,Country
+Canada,Filipino,2001,0.994742332,308575,31020596,Census,Country
+Canada,Korean,2001,0.324494088,100660,31020596,Census,Country
+Canada,Chinese,1996,3.015094753,860150,28528125,Census,Country
+Canada,Japanese,1996,0.238834484,68135,28528125,Census,Country
+Canada,Filipino,1996,0.820944244,234200,28528125,Census,Country
+Canada,Korean,1996,0.227266951,64835,28528125,Census,Country
+Canada,Chinese,1981,1.16537466,289245,24819915,Census,Country
+Canada,Japanese,1981,0.165169784,40995,24819915,Census,Country
+Canada,Filipino,1981,0.292627916,72630,24819915,Census,Country
+Canada,Korean,1981,0.089021256,22095,24819915,Census,Country
+Canada,Chinese,1971,0.541001853,118815,21962032,Census,Country
+Canada,Japanese,1971,0.169656433,37260,21962032,Census,Country
+Canada,Chinese,1961,0.318521154,58197,18271000,Census,Country
+Canada,Japanese,1961,0.159580756,29157,18271000,Census,Country

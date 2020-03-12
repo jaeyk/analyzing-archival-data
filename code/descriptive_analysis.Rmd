@@ -1,0 +1,184 @@
+---
+title: "Descriptive analysis"
+author: "Jae Yeon Kim"
+output:
+html_document: 
+  toc: true
+  theme: united
+---
+
+## 0. Setup 
+
+```{r}
+
+# Clean up the environment
+
+rm(list = ls())
+
+# Import libraries (adapted from this link: https://stackoverflow.com/questions/4090169/elegant-way-to-check-for-missing-packages-and-install-them)
+
+if (!require("pacman")) install.packages("pacman")
+
+pacman::p_load(tidyverse, # tidyverse
+               xlsx, # for importing Excel files 
+               patchwork, # for arranging ggplots 
+               ggpubr, # for arranging ggplots 
+               ggthemes, # for fancy ggplot themes
+               conflicted, # for resolving conflicted functions
+               stringr, # for string manipulation 
+               readxl) # for importing Excel files 
+
+# Import functions 
+
+source("/home/jae/analyzing-archival-data/functions/theme_publications.r")
+
+# Set themes and resolve function conflicts 
+theme_set(theme_Publication(14))
+
+conflict_prefer("filter", "dplyr")
+conflict_prefer("filter", "stats")
+```
+
+## 1. Load files 
+
+```{r}
+
+# Set working directory (only working for within this chunk)
+setwd("/home/jae/analyzing-archival-data/raw_data/")
+
+# Import files 
+asian_pop_US_Canada <- read_csv("asian_pop_US_Canada.csv")
+Chinese_pop_US_Canada<- read_csv("Chinese_pop_US_Canada.csv")
+Chinese_pop_Canada<- read_csv("Chinese_pop_Canada.csv")
+Chinese_pop <- read_csv("Chinese_pop.csv")
+Canada_election <- read_excel("Canada_election.xlsx", sheet = 1)
+Canada_election_vancouver_east <- read_excel("Canada_election_vancouver_east.xlsx", sheet = 1)
+
+```
+
+## 2. Wrangle data
+
+```{r}
+
+asian_pop_US_Canada <- asian_pop_US_Canada %>%
+  mutate(Percent = Size/(Total)*100)
+
+Chinese_pop_city <- subset(Chinese_pop, Type == "City")
+
+Chinese_pop_country <- subset(Chinese_pop, Type == "Country")
+
+```
+
+## 3. Visualize data 
+
+```{r}
+
+setwd("/home/jae/analyzing-archival-data/outputs")
+
+# National level
+
+## Chinese pop trend
+
+ggplot(Chinese_pop_US_Canada, aes(x = Year, y = `Total Chinese Population`, col=Country)) +
+  geom_line()+
+  geom_point(size = 3)+
+  scale_colour_discrete(name="Country") +
+  xlab("Year")+
+  ylab('Size of Chinese population (unit: 1,000)') +
+  theme_Publication() +
+  scale_color_grey(start = 0, end = .7) +
+  scale_y_continuous(labels = scales::unit_format(
+                     unit = "k", 
+                     scale = 1e-3,
+                     accuracy = 1))
+
+ggsave("chinese_pop_us_canada.png", height = 5)
+
+## Asian pop trend
+
+Chinese_pop_country %>%
+  filter(Group != "Korean") %>%
+  ggplot(aes(x=Year, y=Percent/100, col = Group)) +
+    geom_line()+
+    geom_point(size = 3)+
+    scale_colour_discrete(name="Group") +
+    xlim(c(1955,2005))+
+    scale_y_continuous(labels = scales::percent) +
+    xlab("Year")+
+    ylab("Population size (unit: percentage)")+
+    facet_wrap(~Name)
+
+ggsave("asian_pop_us_canada.png")
+
+# City level
+
+asian_pop_US_Canada %>% 
+  filter(Type == "City") %>%
+  mutate(Group = str_trim(Group)) %>%
+  filter(Group == "Chinese" | Group == "Japanese") %>%
+  ggplot(aes(x = Year, y = Percent/100, col = Group)) +
+    geom_smooth(se = FALSE)+
+    geom_point(size = 3)+
+    scale_colour_discrete(name="Group") +
+    xlab("Year")+
+    xlim(c(1885,1935))+
+    ylab("Population size (unit: percent)")+
+    facet_wrap(~Name) +
+    scale_y_continuous(labels = scales::percent) +
+    scale_color_grey(start = 0, end = .7)
+
+ggsave("asian_pop_three_city.png", width = 7)
+
+# SF and VC pop trend 
+
+## SF trend 
+
+sf_pop_trend <- asian_pop_city %>%
+  filter(Name == "SF") %>%
+  filter(Group == "Chinese" | Group == "Japanese") %>%
+  ggplot(aes(x=Year, y=Size, col = Group)) +
+    geom_point(size = 3) +
+    geom_smooth(se = FALSE) +
+    geom_vline(xintercept = c(1942, 1946), col = "black", linetype ="dashed") +
+    annotate("rect", xmin = 1942, xmax = 1946, ymin = 0, ymax = 50000, alpha = .2) +
+    xlim(c(1890, 1960)) +
+    scale_y_continuous(labels = scales::number_format(big.mark = ",")) +
+    scale_color_grey(start = 0, end = .7) +
+    labs(x = "Year", 
+         y = "Population size (in number)") +
+    facet_wrap(~Name) 
+
+## VC pop trend
+
+vc_pop_trend <- asian_pop_city %>%
+  filter(Name == "Vancouver") %>%
+  filter(Group == "Chinese" | Group == "Japanese") %>%
+  ggplot(aes(x = Year, y = Size, col = Group)) +
+    geom_point(size = 3) +
+    geom_smooth(se = FALSE) +
+    geom_vline(xintercept = c(1942, 1949), col = "black", linetype ="dashed") +
+    annotate("rect", xmin = 1942, xmax = 1949, ymin = 0, ymax = 15000, alpha = .2) +
+    xlim(c(1890, 1960)) +
+    scale_y_continuous(labels = scales::number_format(big.mark = ",")) +
+    scale_color_grey(start = 0, end = .7) +
+    labs(x = "Year", 
+         y = "") +
+    facet_wrap(~Name)
+
+ggarrange(sf_pop_trend, vc_pop_trend, common.legend = TRUE)
+ggsave("sf_vc_comparison.png")
+
+# Vancouver 
+
+Canada_election_vancouver_east %>%
+  mutate(Percent = Percent/100) %>%
+  ggplot(aes(x=fct_reorder(Group, Percent), y=Percent)) + 
+    geom_col() +
+    coord_flip() +
+    scale_y_continuous(label= scales::percent) +
+    scale_color_grey(start = 0, end = .7) +
+    labs(x = "Ethnic groups",
+         y = "Population proportion")
+  
+ggsave("vancouver_east.png")
+```
