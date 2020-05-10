@@ -32,9 +32,6 @@ pacman::p_load(tidyverse, # tidyverse
 
 source("/home/jae/analyzing-archival-data/functions/theme_publications.r")
 
-# Set themes and resolve function conflicts 
-theme_set(theme_Publication(14))
-
 conflict_prefer("filter", "dplyr")
 ```
 
@@ -143,9 +140,10 @@ asian_pop_city %>%
     xlim(c(1885,1935))+
     ylab("Population size (in percent)")+
     facet_wrap(~Name) +
-    scale_y_continuous(labels = scales::percent) +
+    scale_y_continuous(labels = scales::label_percent(accuracy = 1L)) +
     scale_color_grey(start = 0, end = .7) +
-    theme(axis.text.x = element_text(angle = 90, hjust = 1))
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    theme_Publication()
 
 ggsave("/home/jae/analyzing-archival-data/outputs/asian_pop_three_city.png", dpi = 600)
 
@@ -166,7 +164,8 @@ sf_pop_trend <- asian_pop_city %>%
     scale_color_grey(start = 0, end = .7) +
     labs(x = "Year", 
          y = "Population size (in number)") +
-    facet_wrap(~Name) 
+    facet_wrap(~Name) +
+    theme_Publication()
 
 ## VC pop trend
 
@@ -183,7 +182,8 @@ vc_pop_trend <- asian_pop_city %>%
     scale_color_grey(start = 0, end = .7) +
     labs(x = "Year", 
          y = "") +
-    facet_wrap(~Name)
+    facet_wrap(~Name) +
+    theme_Publication()
 
 ggarrange(sf_pop_trend, vc_pop_trend, common.legend = TRUE)
 ggsave("/home/jae/analyzing-archival-data/outputs/sf_vc_comparison.png", dpi = 600)
@@ -195,10 +195,11 @@ Canada_election_vancouver_east %>%
   ggplot(aes(x=fct_reorder(Group, Percent), y=Percent)) + 
     geom_col() +
     coord_flip() +
-    scale_y_continuous(label= scales::percent) +
+    scale_y_continuous(labels = scales::label_percent(accuracy = 1L)) +
     scale_color_grey(start = 0, end = .7) +
     labs(x = "Ethnic groups",
-         y = "Population proportion")
+         y = "Population proportion") +
+    theme_Publication()
   
 ggsave("/home/jae/analyzing-archival-data/outputs/vancouver_east.png", dpi = 600)
 ```
