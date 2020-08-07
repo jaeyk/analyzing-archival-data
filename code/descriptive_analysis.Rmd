@@ -11,11 +11,7 @@ html_document:
 
 ```{r}
 
-# Clean up the environment
-
-rm(list = ls())
-
-# Import libraries (adapted from this link: https://stackoverflow.com/questions/4090169/elegant-way-to-check-for-missing-packages-and-install-them)
+# Import libraries
 
 if (!require("pacman")) install.packages("pacman")
 
@@ -24,32 +20,45 @@ pacman::p_load(tidyverse, # tidyverse
                patchwork, # for arranging ggplots 
                ggpubr, # for arranging ggplots 
                ggthemes, # for fancy ggplot themes
-               conflicted, # for resolving conflicted functions
                stringr, # for string manipulation 
-               readxl) # for importing Excel files 
+               readxl, # for importing Excel files 
+               here) # for reproducibility
 
-# Import functions 
+# devtools::install_github("jaeyk/makereproducible")
+library(makereproducible)
 
-source("/home/jae/analyzing-archival-data/functions/theme_publications.r")
+# Import R scripts
 
-conflict_prefer("filter", "dplyr")
+script_list <- list.files(paste0(here::here(), "/functions"),
+  pattern = "*.r|*.R",
+  full.names = TRUE
+)
+
+for (i in 1:length(script_list))
+{
+  source(script_list[[i]])
+}
+
 ```
 
 ## 1. Load files 
 
 ```{r}
 
-# Set working directory (only working for within this chunk)
-setwd("/home/jae/analyzing-archival-data/raw_data/")
-
 # Import files 
-asian_pop_US_Canada <- read_csv("asian_pop_US_Canada.csv")
 
-Chinese_pop_US_Canada<- read_csv("Chinese_pop_US_Canada.csv")
-Chinese_pop_Canada<- read_csv("Chinese_pop_Canada.csv")
-Chinese_pop <- read_csv("Chinese_pop.csv")
-Canada_election <- read_excel("Canada_election.xlsx", sheet = 1)
-Canada_election_vancouver_east <- read_excel("Canada_election_vancouver_east.xlsx", sheet = 1)
+asian_pop_US_Canada <- read_csv(here("raw_data", "asian_pop_US_Canada.csv"))
+
+Chinese_pop_US_Canada<- read_csv(here("raw_data", "Chinese_pop_US_Canada.csv"))
+
+Chinese_pop_Canada<- read_csv(here("raw_data", "Chinese_pop_Canada.csv"))
+
+Chinese_pop <- read_csv(here("raw_data", "Chinese_pop.csv"))
+
+Canada_election <- read_excel(here("raw_data", "Canada_election.xlsx"), sheet = 1)
+
+Canada_election_vancouver_east <- 
+  read_excel(here("raw_data", "Canada_election_vancouver_east.xlsx"), sheet = 1)
 
 ```
 
@@ -95,7 +104,7 @@ ggplot(Chinese_pop_US_Canada, aes(x = Year, y = `Total Chinese Population`, col=
                      scale = 1e-3,
                      accuracy = 1))
 
-ggsave("/home/jae/analyzing-archival-data/outputs/chinese_pop_us_canada.png", 
+ggsave(make_here("/home/jae/analyzing-archival-data/outputs/chinese_pop_us_canada.png"), 
        dpi = 600)
 
 ```
@@ -118,7 +127,7 @@ Chinese_pop_country %>%
     scale_color_grey(start = 0, end = .7) +
     theme_Publication()
 
-ggsave("/home/jae/analyzing-archival-data/outputs/asian_pop_us_canada.png", 
+ggsave(make_here("/home/jae/analyzing-archival-data/outputs/asian_pop_us_canada.png"), 
        dpi = 600)
 
 ```
@@ -145,7 +154,7 @@ asian_pop_city %>%
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
     theme_Publication()
 
-ggsave("/home/jae/analyzing-archival-data/outputs/asian_pop_three_city.png", dpi = 600)
+ggsave(make_here("/home/jae/analyzing-archival-data/outputs/asian_pop_three_city.png"), dpi = 600)
 
 # SF and VC pop trend 
 
@@ -186,7 +195,8 @@ vc_pop_trend <- asian_pop_city %>%
     theme_Publication()
 
 ggarrange(sf_pop_trend, vc_pop_trend, common.legend = TRUE)
-ggsave("/home/jae/analyzing-archival-data/outputs/sf_vc_comparison.png", dpi = 600)
+
+ggsave(make_here("/home/jae/analyzing-archival-data/outputs/sf_vc_comparison.png"), dpi = 600)
 
 # Vancouver 
 
@@ -201,5 +211,5 @@ Canada_election_vancouver_east %>%
          y = "Population proportion") +
     theme_Publication()
   
-ggsave("/home/jae/analyzing-archival-data/outputs/vancouver_east.png", dpi = 600)
+ggsave(make_here("/home/jae/analyzing-archival-data/outputs/vancouver_east.png"), dpi = 600)
 ```
